@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrepIQ - AI Interview Simulator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-brain"></i>
+                <span>PrepIQ</span>
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-link">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#about" class="nav-link">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Master Your Interviews with
+                    <span class="gradient-text">AI-Powered Simulation</span>
+                </h1>
+                <p class="hero-description">
+                    Experience realistic, domain-specific interviews with real-time feedback, 
+                    emotion analysis, and personalized improvement recommendations.
+                </p>
+                <div class="hero-features">
+                    <div class="feature-item">
+                        <i class="fas fa-microphone"></i>
+                        <span>Voice Interaction</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-brain"></i>
+                        <span>AI Evaluation</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Real-time Analytics</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-smile"></i>
+                        <span>Emotion Detection</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="domains-section">
+            <h2 class="section-title">Choose Your Interview Domain</h2>
+            <div class="domains-grid">
+                <div class="domain-card" onclick="selectDomain('web_development')">
+                    <div class="domain-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Web Development</h3>
+                    <p>Frontend, Backend, Full-stack interviews with modern frameworks</p>
+                    <div class="domain-topics">
+                        <span class="topic-tag">React</span>
+                        <span class="topic-tag">Node.js</span>
+                        <span class="topic-tag">JavaScript</span>
+                    </div>
+                </div>
+
+                <div class="domain-card" onclick="selectDomain('ai_ml')">
+                    <div class="domain-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI/Machine Learning</h3>
+                    <p>Data Science, ML Engineering, and AI research positions</p>
+                    <div class="domain-topics">
+                        <span class="topic-tag">Python</span>
+                        <span class="topic-tag">TensorFlow</span>
+                        <span class="topic-tag">Statistics</span>
+                    </div>
+                </div>
+
+                <div class="domain-card" onclick="selectDomain('electrical')">
+                    <div class="domain-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Core Electrical</h3>
+                    <p>Power systems, electronics, and control engineering roles</p>
+                    <div class="domain-topics">
+                        <span class="topic-tag">Circuits</span>
+                        <span class="topic-tag">Power Systems</span>
+                        <span class="topic-tag">Control</span>
+                    </div>
+                </div>
+
+                <div class="domain-card" onclick="selectDomain('hr')">
+                    <div class="domain-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Human Resources</h3>
+                    <p>Recruitment, employee relations, and HR management positions</p>
+                    <div class="domain-topics">
+                        <span class="topic-tag">Recruitment</span>
+                        <span class="topic-tag">Relations</span>
+                        <span class="topic-tag">Compliance</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-section" id="features">
+            <h2 class="section-title">Why Choose PrepIQ?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Real-time Voice Interaction</h3>
+                    <p>Speak naturally with our AI interviewer using advanced speech recognition and text-to-speech technology.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>Emotion & Confidence Analysis</h3>
+                    <p>Advanced facial recognition tracks your confidence, nervousness, and engagement throughout the interview.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Instant Feedback & Scoring</h3>
+                    <p>Get immediate evaluation of your responses with detailed feedback and improvement suggestions.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Personalized Learning Path</h3>
+                    <p>Receive curated resources and practice recommendations based on your performance analysis.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 PrepIQ. Powered by AI for better interview preparation.</p>
+        </div>
+    </footer>
+
+    <script>
+    function selectDomain(domain) {
+        // Add selection animation
+        const cards = document.querySelectorAll('.domain-card');
+        cards.forEach(card => card.classList.remove('selected'));
+        event.currentTarget.classList.add('selected');
+        
+        // Navigate to interview setup
+        setTimeout(() => {
+            window.location.href = `/interview/${domain}`;
+        }, 500);
+    }
+
+    // Add hover effects and animations
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.domain-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    });
+    </script>
+</body>
+</html>

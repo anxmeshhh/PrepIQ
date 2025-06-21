@@ -1,0 +1,54 @@
+2025-06-21 21:16:12,505 - engineio.server - INFO - Server initialized for threading.
+2025-06-21 21:16:12,546 - comtypes.client._code_cache - INFO - Imported existing <module 'comtypes.gen' from 'C:\\Users\\ASUS\\AppData\\Roaming\\Python\\Python312\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-06-21 21:16:12,546 - comtypes.client._code_cache - INFO - Using writeable comtypes cache directory: 'C:\Users\ASUS\AppData\Roaming\Python\Python312\site-packages\comtypes\gen'
+2025-06-21 21:16:12,743 - __main__ - WARNING - pyttsx3 initialization failed: 'AdvancedTTSManager' object has no attribute 'voice_profiles'
+2025-06-21 21:16:12,769 - __main__ - INFO - ============================================================
+2025-06-21 21:16:12,775 - __main__ - INFO - ============================================================
+2025-06-21 21:16:12,778 - __main__ - INFO - ============================================================
+2025-06-21 21:16:12,797 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.7:5000
+2025-06-21 21:16:12,797 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-21 21:17:49,060 - werkzeug - INFO - 127.0.0.1 - - [21/Jun/2025 21:17:49] "GET / HTTP/1.1" 200 -
+2025-06-21 21:17:49,098 - werkzeug - INFO - 127.0.0.1 - - [21/Jun/2025 21:17:49] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-06-21 21:17:51,059 - __main__ - INFO - Creating interview session: fd5fa142-a357-474c-919e-568d3fcf4096 for domain: ai_ml
+2025-06-21 21:17:51,062 - werkzeug - INFO - 127.0.0.1 - - [21/Jun/2025 21:17:51] "GET /interview/ai_ml HTTP/1.1" 200 -
+2025-06-21 21:17:51,085 - werkzeug - INFO - 127.0.0.1 - - [21/Jun/2025 21:17:51] "[36mGET /static/js/emotion-detection.js HTTP/1.1[0m" 304 -
+2025-06-21 21:17:51,085 - werkzeug - INFO - 127.0.0.1 - - [21/Jun/2025 21:17:51] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-06-21 21:17:51,085 - werkzeug - INFO - 127.0.0.1 - - [21/Jun/2025 21:17:51] "[36mGET /static/js/interview.js HTTP/1.1[0m" 304 -
+2025-06-21 21:17:51,185 - engineio.server - INFO - HNRoVIwGQGQQljwBAAAA: Sending packet OPEN data {'sid': 'HNRoVIwGQGQQljwBAAAA', 'upgrades': [], 'pingTimeout': 20000, 'pingInterval': 25000, 'maxPayload': 1000000}
+2025-06-21 21:17:51,186 - engineio.server - INFO - HNRoVIwGQGQQljwBAAAA: Received request to upgrade to websocket
+2025-06-21 21:17:51,187 - engineio.server - INFO - HNRoVIwGQGQQljwBAAAA: Upgrade to websocket successful
+2025-06-21 21:17:51,191 - engineio.server - INFO - HNRoVIwGQGQQljwBAAAA: Received packet MESSAGE data 0
+2025-06-21 21:17:51,192 - __main__ - INFO - Client connected: RVy-83LidoHISafnAAAB
+2025-06-21 21:17:51,192 - engineio.server - INFO - HNRoVIwGQGQQljwBAAAA: Sending packet MESSAGE data 0{"sid":"RVy-83LidoHISafnAAAB"}
+2025-06-21 21:17:51,397 - engineio.server - INFO - JJCTDw5M796YKRN6AAAC: Sending packet OPEN data {'sid': 'JJCTDw5M796YKRN6AAAC', 'upgrades': [], 'pingTimeout': 20000, 'pingInterval': 25000, 'maxPayload': 1000000}
+2025-06-21 21:17:51,398 - engineio.server - INFO - JJCTDw5M796YKRN6AAAC: Received request to upgrade to websocket
+2025-06-21 21:17:51,400 - engineio.server - INFO - JJCTDw5M796YKRN6AAAC: Upgrade to websocket successful
+2025-06-21 21:17:51,400 - engineio.server - INFO - JJCTDw5M796YKRN6AAAC: Received packet MESSAGE data 0
+2025-06-21 21:17:51,401 - __main__ - INFO - Client connected: HIP1V1Ep3c8xdO_lAAAD
+2025-06-21 21:17:51,401 - engineio.server - INFO - JJCTDw5M796YKRN6AAAC: Sending packet MESSAGE data 0{"sid":"HIP1V1Ep3c8xdO_lAAAD"}
+2025-06-21 21:17:52,923 - engineio.server - INFO - HNRoVIwGQGQQljwBAAAA: Received packet MESSAGE data 2["start_interview",{"session_id":"fd5fa142-a357-474c-919e-568d3fcf4096","domain":"ai_ml","difficulty":"entry"}]
+2025-06-21 21:17:52,923 - socketio.server - INFO - received event "start_interview" from RVy-83LidoHISafnAAAB [/]
+2025-06-21 21:17:52,925 - __main__ - INFO - Starting interview: ai_ml - entry level
+2025-06-21 21:17:52,925 - engineio.server - INFO - JJCTDw5M796YKRN6AAAC: Received packet MESSAGE data 2["start_interview",{"session_id":"fd5fa142-a357-474c-919e-568d3fcf4096","domain":"ai_ml","difficulty":"entry"}]
+2025-06-21 21:17:52,925 - socketio.server - INFO - received event "start_interview" from HIP1V1Ep3c8xdO_lAAAD [/]
+2025-06-21 21:17:52,926 - __main__ - INFO - Starting interview: ai_ml - entry level
+2025-06-21 21:17:52,940 - __main__ - INFO - Generating question 1 for session fd5fa142-a357-474c-919e-568d3fcf4096
+2025-06-21 21:17:52,940 - __main__ - ERROR - Enhanced question generation failed: 'AdvancedQuestionGenerator' object has no attribute 'select_question_category'
+2025-06-21 21:17:52,940 - socketio.server - INFO - emitting event "error" to RVy-83LidoHISafnAAAB [/]
+2025-06-21 21:17:52,940 - engineio.server - INFO - HNRoVIwGQGQQljwBAAAA: Sending packet MESSAGE data 2["error",{"message":"Failed to generate question. Please try again."}]
+2025-06-21 21:17:52,953 - __main__ - ERROR - Database insert error: UNIQUE constraint failed: interview_sessions.session_id
+2025-06-21 21:17:52,953 - __main__ - INFO - Generating question 1 for session fd5fa142-a357-474c-919e-568d3fcf4096
+2025-06-21 21:17:52,954 - __main__ - ERROR - Enhanced question generation failed: 'AdvancedQuestionGenerator' object has no attribute 'select_question_category'
+2025-06-21 21:17:52,954 - socketio.server - INFO - emitting event "error" to HIP1V1Ep3c8xdO_lAAAD [/]
+2025-06-21 21:17:52,954 - engineio.server - INFO - JJCTDw5M796YKRN6AAAC: Sending packet MESSAGE data 2["error",{"message":"Failed to generate question. Please try again."}]
+2025-06-21 21:18:16,187 - engineio.server - INFO - HNRoVIwGQGQQljwBAAAA: Sending packet PING data None
+2025-06-21 21:18:16,188 - engineio.server - INFO - HNRoVIwGQGQQljwBAAAA: Received packet PONG data 
+2025-06-21 21:18:16,398 - engineio.server - INFO - JJCTDw5M796YKRN6AAAC: Sending packet PING data None
+2025-06-21 21:18:16,399 - engineio.server - INFO - JJCTDw5M796YKRN6AAAC: Received packet PONG data 
+2025-06-21 21:18:41,190 - engineio.server - INFO - HNRoVIwGQGQQljwBAAAA: Sending packet PING data None
+2025-06-21 21:18:41,191 - engineio.server - INFO - HNRoVIwGQGQQljwBAAAA: Received packet PONG data 
+2025-06-21 21:18:41,401 - engineio.server - INFO - JJCTDw5M796YKRN6AAAC: Sending packet PING data None
+2025-06-21 21:18:41,402 - engineio.server - INFO - JJCTDw5M796YKRN6AAAC: Received packet PONG data 

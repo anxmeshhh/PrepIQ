@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrepIQ - Interview Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="results-container">
+        <!-- Results Header -->
+        <div class="results-header">
+            <div class="results-title">
+                <h1>Interview Complete!</h1>
+                <p>{{ session_data.domain|title }} Interview Results</p>
+            </div>
+            <div class="overall-score">
+                <div class="score-circle">
+                    <div class="score-value">{{ "%.1f"|format(session_data.final_report.overall_score) }}</div>
+                    <div class="score-label">Overall Score</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Score Breakdown -->
+        <div class="score-breakdown">
+            <h2>Performance Breakdown</h2>
+            <div class="breakdown-grid">
+                <div class="breakdown-item">
+                    <div class="breakdown-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="breakdown-content">
+                        <h3>Technical Skills</h3>
+                        <div class="score-bar">
+                            <div class="score-fill" style="width: {{ (session_data.final_report.score_breakdown.technical / 10) * 100 }}%"></div>
+                        </div>
+                        <span class="score-text">{{ "%.1f"|format(session_data.final_report.score_breakdown.technical) }}/10</span>
+                    </div>
+                </div>
+
+                <div class="breakdown-item">
+                    <div class="breakdown-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="breakdown-content">
+                        <h3>Communication</h3>
+                        <div class="score-bar">
+                            <div class="score-fill" style="width: {{ (session_data.final_report.score_breakdown.communication / 10) * 100 }}%"></div>
+                        </div>
+                        <span class="score-text">{{ "%.1f"|format(session_data.final_report.score_breakdown.communication) }}/10</span>
+                    </div>
+                </div>
+
+                <div class="breakdown-item">
+                    <div class="breakdown-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="breakdown-content">
+                        <h3>Completeness</h3>
+                        <div class="score-bar">
+                            <div class="score-fill" style="width: {{ (session_data.final_report.score_breakdown.completeness / 10) * 100 }}%"></div>
+                        </div>
+                        <span class="score-text">{{ "%.1f"|format(session_data.final_report.score_breakdown.completeness) }}/10</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emotion Analysis -->
+        <div class="emotion-analysis">
+            <h2>Emotional Intelligence Analysis</h2>
+            <div class="emotion-grid">
+                <div class="emotion-card">
+                    <div class="emotion-icon confidence">
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <h3>Confidence Level</h3>
+                    <div class="emotion-meter">
+                        <div class="meter-fill confidence" style="width: {{ (session_data.final_report.emotion_analysis.confidence * 100) }}%"></div>
+                    </div>
+                    <span class="emotion-percentage">{{ "%.0f"|format(session_data.final_report.emotion_analysis.confidence * 100) }}%</span>
+                </div>
+
+                <div class="emotion-card">
+                    <div class="emotion-icon engagement">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>Engagement</h3>
+                    <div class="emotion-meter">
+                        <div class="meter-fill engagement" style="width: {{ (session_data.final_report.emotion_analysis.engagement * 100) }}%"></div>
+                    </div>
+                    <span class="emotion-percentage">{{ "%.0f"|format(session_data.final_report.emotion_analysis.engagement * 100) }}%</span>
+                </div>
+
+                <div class="emotion-card">
+                    <div class="emotion-icon nervousness">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3>Nervousness</h3>
+                    <div class="emotion-meter">
+                        <div class="meter-fill nervousness" style="width: {{ (session_data.final_report.emotion_analysis.nervousness * 100) }}%"></div>
+                    </div>
+                    <span class="emotion-percentage">{{ "%.0f"|format(session_data.final_report.emotion_analysis.nervousness * 100) }}%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="recommendations">
+            <h2>Personalized Recommendations</h2>
+            <div class="recommendations-grid">
+                <div class="recommendation-card">
+                    <h3><i class="fas fa-target"></i> Focus Areas</h3>
+                    <ul>
+                        {% for area in session_data.final_report.recommendations.focus_areas %}
+                        <li>{{ area }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="recommendation-card">
+                    <h3><i class="fas fa-star"></i> Your Strengths</h3>
+                    <ul>
+                        {% for strength in session_data.final_report.recommendations.strengths %}
+                        <li>{{ strength }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="recommendation-card">
+                    <h3><i class="fas fa-book"></i> Study Resources</h3>
+                    <div class="resources-list">
+                        {% for resource in session_data.final_report.recommendations.study_resources %}
+                        <a href="{{ resource.url }}" target="_blank" class="resource-link">
+                            <i class="fas fa-external-link-alt"></i>
+                            {{ resource.title }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="results-actions">
+            <button class="btn btn-primary" onclick="window.print()">
+                <i class="fas fa-download"></i>
+                Download Report
+            </button>
+            <a href="/" class="btn btn-success">
+                <i class="fas fa-redo"></i>
+                Take Another Interview
+            </a>
+        </div>
+    </div>
+
+    <script>
+    // Add animation effects
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.breakdown-item, .emotion-card');
+        cards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+            card.classList.add('fade-in');
+        });
+    });
+    </script>
+</body>
+</html>

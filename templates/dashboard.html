@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AI Interview Master</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <span>AI Interview Master</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="/dashboard" class="nav-item active">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" id="startInterviewBtn">
+                    <i class="fas fa-microphone"></i>
+                    <span>Start Interview</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-history"></i>
+                    <span>Interview History</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Learning Resources</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name">{{ session.username or 'User' }}</span>
+                        <span class="user-role">Interview Candidate</span>
+                    </div>
+                </div>
+                <a href="/logout" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <h1>Welcome back, {{ session.username or 'User' }}!</h1>
+                    <p>Ready to ace your next interview? Let's continue your preparation.</p>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary glow-effect" id="quickStartBtn">
+                        <i class="fas fa-play"></i>
+                        Quick Start Interview
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Stats Cards -->
+            <section class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-card fade-in-up">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>{{ performance.avg_score or 0 }}</h3>
+                            <p>Average Score</p>
+                            <div class="stat-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+12% from last week</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card fade-in-up delay-1">
+                        <div class="stat-icon">
+                            <i class="fas fa-smile"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>{{ performance.avg_confidence or 0 }}%</h3>
+                            <p>Confidence Level</p>
+                            <div class="stat-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+8% improvement</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card fade-in-up delay-2">
+                        <div class="stat-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>{{ performance.avg_engagement or 0 }}%</h3>
+                            <p>Engagement Score</p>
+                            <div class="stat-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>Excellent</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card fade-in-up delay-3">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>{{ performance.total_sessions or 0 }}</h3>
+                            <p>Total Sessions</p>
+                            <div class="stat-trend neutral">
+                                <i class="fas fa-minus"></i>
+                                <span>Keep practicing!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Quick Actions -->
+            <section class="quick-actions-section">
+                <h2>Quick Actions</h2>
+                <div class="actions-grid">
+                    <div class="action-card hover-lift" data-domain="web-development">
+                        <div class="action-icon">
+                            <i class="fab fa-js-square"></i>
+                        </div>
+                        <h3>Web Development</h3>
+                        <p>Frontend, Backend & Full-stack interviews</p>
+                        <div class="action-stats">
+                            <span class="stat">2.5K+ Questions</span>
+                            <span class="stat">95% Success Rate</span>
+                        </div>
+                        <button class="btn btn-outline">Start Interview</button>
+                    </div>
+                    
+                    <div class="action-card hover-lift" data-domain="ai-ml">
+                        <div class="action-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>AI/ML Engineering</h3>
+                        <p>Machine Learning & Data Science interviews</p>
+                        <div class="action-stats">
+                            <span class="stat">1.8K+ Questions</span>
+                            <span class="stat">92% Success Rate</span>
+                        </div>
+                        <button class="btn btn-outline">Start Interview</button>
+                    </div>
+                    
+                    <div class="action-card hover-lift" data-domain="electrical">
+                        <div class="action-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>Electrical Engineering</h3>
+                        <p>Power Systems & Electronics interviews</p>
+                        <div class="action-stats">
+                            <span class="stat">1.2K+ Questions</span>
+                            <span class="stat">89% Success Rate</span>
+                        </div>
+                        <button class="btn btn-outline">Start Interview</button>
+                    </div>
+                    
+                    <div class="action-card hover-lift" data-domain="hr">
+                        <div class="action-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Human Resources</h3>
+                        <p>Talent Management & Leadership interviews</p>
+                        <div class="action-stats">
+                            <span class="stat">900+ Questions</span>
+                            <span class="stat">94% Success Rate</span>
+                        </div>
+                        <button class="btn btn-outline">Start Interview</button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Recent Sessions -->
+            <section class="recent-sessions-section">
+                <div class="section-header">
+                    <h2>Recent Interview Sessions</h2>
+                    <a href="#" class="view-all-link">View All</a>
+                </div>
+                
+                <div class="sessions-table">
+                    <div class="table-header">
+                        <div class="col">Domain</div>
+                        <div class="col">Date</div>
+                        <div class="col">Score</div>
+                        <div class="col">Questions</div>
+                        <div class="col">Confidence</div>
+                        <div class="col">Actions</div>
+                    </div>
+                    
+                    {% if sessions %}
+                        {% for session in sessions %}
+                        <div class="table-row">
+                            <div class="col">
+                                <div class="domain-info">
+                                    <div class="domain-icon">
+                                        {% if session.domain == 'Web Development' %}
+                                            <i class="fab fa-js-square"></i>
+                                        {% elif session.domain == 'Ai/Ml Engineering' %}
+                                            <i class="fas fa-robot"></i>
+                                        {% elif session.domain == 'Electrical Engineering' %}
+                                            <i class="fas fa-bolt"></i>
+                                        {% else %}
+                                            <i class="fas fa-users"></i>
+                                        {% endif %}
+                                    </div>
+                                    <span>{{ session.domain }}</span>
+                                </div>
+                            </div>
+                            <div class="col">{{ session.date }}</div>
+                            <div class="col">
+                                <div class="score-badge score-{{ 'high' if session.percentage >= 80 else 'medium' if session.percentage >= 60 else 'low' }}">
+                                    {{ session.percentage }}%
+                                </div>
+                            </div>
+                            <div class="col">{{ session.questions_answered }}/{{ session.total_questions }}</div>
+                            <div class="col">
+                                <div class="confidence-bar">
+                                    <div class="confidence-fill" style="width: {{ session.avg_confidence }}%"></div>
+                                </div>
+                                <span>{{ session.avg_confidence }}%</span>
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-sm btn-ghost">
+                                    <i class="fas fa-eye"></i>
+                                    View Report
+                                </button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="empty-state">
+                            <i class="fas fa-clipboard-list"></i>
+                            <h3>No interviews yet</h3>
+                            <p>Start your first AI interview to see your progress here</p>
+                            <button class="btn btn-primary" id="firstInterviewBtn">
+                                <i class="fas fa-play"></i>
+                                Start First Interview
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Domain Selection Modal -->
+    <div class="modal" id="domainModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Select Interview Domain</h3>
+                <button class="modal-close" id="closeDomainModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="domain-selection-grid">
+                    <div class="domain-option" data-domain="web-development">
+                        <div class="domain-icon">
+                            <i class="fab fa-js-square"></i>
+                        </div>
+                        <h4>Web Development</h4>
+                        <p>Frontend, Backend & Full-stack</p>
+                    </div>
+                    <div class="domain-option" data-domain="ai-ml">
+                        <div class="domain-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h4>AI/ML Engineering</h4>
+                        <p>Machine Learning & Data Science</p>
+                    </div>
+                    <div class="domain-option" data-domain="electrical">
+                        <div class="domain-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h4>Electrical Engineering</h4>
+                        <p>Power Systems & Electronics</p>
+                    </div>
+                    <div class="domain-option" data-domain="hr">
+                        <div class="domain-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>Human Resources</h4>
+                        <p>Talent Management & Leadership</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Domain selection
+        const quickStartBtn = document.getElementById('quickStartBtn');
+        const startInterviewBtn = document.getElementById('startInterviewBtn');
+        const firstInterviewBtn = document.getElementById('firstInterviewBtn');
+        const domainModal = document.getElementById('domainModal');
+        const closeDomainModal = document.getElementById('closeDomainModal');
+        
+        // Show domain selection modal
+        function showDomainModal() {
+            domainModal.style.display = 'flex';
+        }
+        
+        if (quickStartBtn) quickStartBtn.addEventListener('click', showDomainModal);
+        if (startInterviewBtn) startInterviewBtn.addEventListener('click', showDomainModal);
+        if (firstInterviewBtn) firstInterviewBtn.addEventListener('click', showDomainModal);
+        
+        closeDomainModal.addEventListener('click', () => {
+            domainModal.style.display = 'none';
+        });
+        
+        // Domain selection
+        const domainOptions = document.querySelectorAll('.domain-option');
+        domainOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const domain = option.dataset.domain;
+                window.location.href = `/interview/${domain}`;
+            });
+        });
+        
+        // Action cards
+        const actionCards = document.querySelectorAll('.action-card');
+        actionCards.forEach(card => {
+            const btn = card.querySelector('button');
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const domain = card.dataset.domain;
+                window.location.href = `/interview/${domain}`;
+            });
+        });
+    });
+    </script>
+</body>
+</html>

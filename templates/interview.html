@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrepIQ - {{ domain.name }} Interview</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+</head>
+<body>
+    <div class="interview-container">
+        <!-- Interview Header -->
+        <div class="interview-header">
+            <div class="interview-info">
+                <h1>{{ domain.name }} Interview</h1>
+                <div class="interview-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Question</span>
+                        <span class="stat-value" id="current-question">0</span>
+                        <span class="stat-total">/ 10</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Score</span>
+                        <span class="stat-value" id="current-score">0</span>
+                        <span class="stat-total">/ 10</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Time</span>
+                        <span class="stat-value" id="interview-timer">00:00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="interview-controls">
+                <button id="end-interview-btn" class="btn btn-danger" style="display: none;">
+                    <i class="fas fa-stop"></i> End Interview
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Interview Area -->
+        <div class="interview-main">
+            <!-- Video and Emotion Analysis -->
+            <div class="video-section">
+                <div class="video-container">
+                    <video id="user-video" autoplay muted playsinline></video>
+                    <canvas id="emotion-canvas"></canvas>
+                    <div class="emotion-overlay">
+                        <div class="emotion-indicator">
+                            <div class="emotion-item">
+                                <span class="emotion-label">Confidence</span>
+                                <div class="emotion-bar">
+                                    <div class="emotion-fill" id="confidence-bar"></div>
+                                </div>
+                                <span class="emotion-value" id="confidence-value">0%</span>
+                            </div>
+                            <div class="emotion-item">
+                                <span class="emotion-label">Engagement</span>
+                                <div class="emotion-bar">
+                                    <div class="emotion-fill" id="engagement-bar"></div>
+                                </div>
+                                <span class="emotion-value" id="engagement-value">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question and Response Area -->
+            <div class="interaction-section">
+                <!-- AI Interviewer -->
+                <div class="interviewer-section">
+                    <div class="interviewer-avatar">
+                        <div class="avatar-circle">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="speaking-indicator" id="ai-speaking">
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                        </div>
+                    </div>
+                    <div class="question-container">
+                        <div class="question-text" id="current-question-text">
+                            Welcome! Let's start your {{ domain.name }} interview. Please select your experience level to begin.
+                        </div>
+                        <audio id="question-audio" controls style="display: none;"></audio>
+                    </div>
+                </div>
+
+                <!-- Difficulty Selection (Initial) -->
+                <div class="difficulty-selection" id="difficulty-selection">
+                    <h3>Select Your Experience Level:</h3>
+                    <div class="difficulty-options">
+                        {% for level in domain.difficulty_levels %}
+                        <button class="difficulty-btn" data-level="{{ level.lower() }}">
+                            {{ level }}
+                        </button>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Response Area -->
+                <div class="response-section" id="response-section" style="display: none;">
+                    <div class="response-controls">
+                        <button id="start-recording" class="btn btn-primary">
+                            <i class="fas fa-microphone"></i>
+                            Start Recording
+                        </button>
+                        <button id="stop-recording" class="btn btn-danger" style="display: none;">
+                            <i class="fas fa-stop"></i>
+                            Stop Recording
+                        </button>
+                        <div class="recording-indicator" id="recording-indicator">
+                            <div class="pulse"></div>
+                            <span>Recording...</span>
+                        </div>
+                    </div>
+                    
+                    <div class="transcription-area">
+                        <div class="transcription-text" id="transcription-text">
+                            Your response will appear here as you speak...
+                        </div>
+                    </div>
+
+                    <div class="response-actions">
+                        <button id="submit-response" class="btn btn-success" disabled>
+                            <i class="fas fa-paper-plane"></i>
+                            Submit Response
+                        </button>
+                        <button id="retry-response" class="btn btn-secondary">
+                            <i class="fas fa-redo"></i>
+                            Try Again
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Feedback Area -->
+                <div class="feedback-section" id="feedback-section" style="display: none;">
+                    <div class="feedback-header">
+                        <h3>Response Evaluation</h3>
+                        <div class="feedback-score">
+                            <span class="score-value" id="response-score">0</span>
+                            <span class="score-total">/ 10</span>
+                        </div>
+                    </div>
+                    <div class="feedback-content">
+                        <div class="feedback-strengths">
+                            <h4><i class="fas fa-thumbs-up"></i> Strengths</h4>
+                            <ul id="strengths-list"></ul>
+                        </div>
+                        <div class="feedback-improvements">
+                            <h4><i class="fas fa-lightbulb"></i> Areas for Improvement</h4>
+                            <ul id="improvements-list"></ul>
+                        </div>
+                        <div class="feedback-detailed">
+                            <h4><i class="fas fa-comment"></i> Detailed Feedback</h4>
+                            <p id="detailed-feedback"></p>
+                        </div>
+                    </div>
+                    <button id="next-question" class="btn btn-primary">
+                        <i class="fas fa-arrow-right"></i>
+                        Next Question
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="interview-progress"></div>
+            </div>
+            <div class="progress-text">
+                <span id="progress-text">Ready to start</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p id="loading-text">Initializing AI interviewer...</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/interview.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/emotion-detection.js') }}"></script>
+    <script>
+// Initialize interview with session data - Fixed session variables
+window.SESSION_ID = '{{ session_id }}';
+window.DOMAIN = '{{ domain_key }}';
+
+console.log('Session ID:', window.SESSION_ID);
+console.log('Domain:', window.DOMAIN);
+
+// Ensure DOM is fully loaded before initializing
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, checking session variables...');
+    
+    if (window.SESSION_ID && window.DOMAIN) {
+        console.log('✅ Session variables available, initializing...');
+        
+        // Small delay to ensure all scripts are loaded
+        setTimeout(function() {
+            if (typeof initializeInterview === 'function') {
+                initializeInterview();
+            } else {
+                console.error('❌ initializeInterview function not found');
+                alert('Failed to initialize interview system. Please refresh the page.');
+            }
+        }, 200);
+    } else {
+        console.error('❌ Session variables missing');
+        console.log('SESSION_ID:', window.SESSION_ID);
+        console.log('DOMAIN:', window.DOMAIN);
+        alert('Session initialization failed. Please refresh the page.');
+    }
+});
+</script>
+</body>
+</html>
